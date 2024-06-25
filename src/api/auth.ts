@@ -230,6 +230,8 @@ export const useGetProfileData = () => {
 
 export const useUpdateUserAccount = () => {
     const updateUserAccountRequest = async (user: UpdateUserTypes) => {
+        console.log("total profile", user);
+        
         const accessToken = Cookies.get('access-token');
         const response = await fetch(`${API_BASE_URL}/api/v1/auth/update`, {
             method: 'PUT',

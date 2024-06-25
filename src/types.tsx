@@ -1,10 +1,72 @@
 export type User = {
     _id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+    title?: string;
+    surName: string;
+    givenName: string;
+    otherNames?: string;
+    photograph?: File | null; // assuming it's a file upload
+    gender?: string;
+    tribe?: string;
+    religion?: string;
+    placeOfBirth?: string;
+    currentParish?: string;
+    birthday: Date;
+    nationalIDNumber: string;
+    nationalIDPhoto?: File | null; // assuming it's a file upload
     phone: string;
+    email: string;
+    homeAddress?: string;
+    homeLocation?: string;
+    districtOfBirth?: string;
+    birthParish?: string;
+    birthVillage?: string;
+    birthHome?: string;
+    maritalStatus?: string;
+    profession?: string;
+    jobTitle?: string;
+    nextOfKin?: {
+        nationalID?: string;
+        contactName?: string;
+        contactPhone?: string;
+        contactEmail?: string;
+    };
+    monthlyIncome?: string;
+    bankName?: string;
+    accountNumber?: string;
+    registeredMobileAccount?: string;
+    registeredEmailWithBank?: string;
+    highestEducation?: string;
+    otherEducation?: string;
+    employmentStatus?: string;
+    placeOfWorkAddress?: string;
+    employerDetails?: {
+        name?: string;
+        salary?: string;
+        sideHustleIncome?: string;
+    };
+    groupMembership?: {
+        joiningDate: Date;
+        recommender?: {
+            fullName?: string;
+            nationalID?: string;
+            email?: string;
+            phone?: string;
+        };
+    };
+    userID?: string;
+    notificationPreferences?: string;
+    twoFactorAuth?: boolean;
+    securityQuestions?: {
+        question1?: string;
+        answer1?: string;
+        question2?: string;
+        answer2?: string;
+    };
+    consentAgreements?: boolean;
+    customFields?: any; // assuming it can be any type
+    createdAt: Date;
 };
+
 
 export type CreateRoleTypes = {
     role_name: string;
@@ -13,18 +75,77 @@ export type CreateRoleTypes = {
 
 export type CreateUserTypes = {
     email: string;
-    firstName: string;
-    lastName: string;
+    surName: string;
+    givenName: string;
     phone: string;
     password: string;
     role: string;
 }
 
 export type UpdateUserTypes = {
-    email?: string;
-    firstName: string;
-    lastName: string;
+    title?: string;
+    surName: string;
+    givenName: string;
+    otherNames?: string;
+    photograph?: File | null; // assuming it's a file upload
+    gender?: string;
+    tribe?: string;
+    religion?: string;
+    placeOfBirth?: string;
+    currentParish?: string;
+    birthday: Date;
+    nationalIDNumber: string;
+    nationalIDPhoto?: File | null; // assuming it's a file upload
     phone: string;
+    email: string;
+    homeAddress?: string;
+    homeLocation?: string;
+    districtOfBirth?: string;
+    birthParish?: string;
+    birthVillage?: string;
+    birthHome?: string;
+    maritalStatus?: string;
+    profession?: string;
+    jobTitle?: string;
+    nextOfKin?: {
+        nationalID?: string;
+        contactName?: string;
+        contactPhone?: string;
+        contactEmail?: string;
+    };
+    monthlyIncome?: string;
+    bankName?: string;
+    accountNumber?: string;
+    registeredMobileAccount?: string;
+    registeredEmailWithBank?: string;
+    highestEducation?: string;
+    otherEducation?: string;
+    employmentStatus?: string;
+    placeOfWorkAddress?: string;
+    employerDetails?: {
+        name?: string;
+        salary?: string;
+        sideHustleIncome?: string;
+    };
+    groupMembership?: {
+        joiningDate: Date;
+        recommender?: {
+            fullName?: string;
+            nationalID?: string;
+            email?: string;
+            phone?: string;
+        };
+    };
+    notificationPreferences?: string;
+    twoFactorAuth?: boolean;
+    securityQuestions?: {
+        question1?: string;
+        answer1?: string;
+        question2?: string;
+        answer2?: string;
+    };
+    consentAgreements?: boolean;
+    customFields?: any; // assuming it can be any type
 }
 
 export type SignInTypes = {
@@ -38,8 +159,8 @@ export type OPTTypes = {
 
 export type Application = {
     _id: string;
-    firstName: string;   
-    lastName: string;
+    surName: string;   
+    givenName: string;
     nationalId: string;
     email: string;
     userId: string;
@@ -62,8 +183,8 @@ export type Application = {
 };
 
 export type CreateApplicationTypes = {
-    firstName: string;   
-    lastName: string;
+    surName: string;   
+    givenName: string;
     nationalId: string;
     email: string;
     userId: string;
@@ -85,8 +206,8 @@ export type CreateApplicationTypes = {
 
 export type UpdateApplicationTypes = {
     _id: string;
-    firstName: string;   
-    lastName: string;
+    surName: string;   
+    givenName: string;
     nationalId: string;
     email: string;
     userId: string;
