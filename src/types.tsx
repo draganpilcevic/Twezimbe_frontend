@@ -4,15 +4,15 @@ export type User = {
     surName: string;
     givenName: string;
     otherNames?: string;
-    photograph?: File | null; // assuming it's a file upload
-    gender?: string;
+    photograph?: string; // assuming it's a file upload
+    gender: "Male" | "Female" | "Other";
     tribe?: string;
     religion?: string;
     placeOfBirth?: string;
     currentParish?: string;
     birthday: Date;
     nationalIDNumber: string;
-    nationalIDPhoto?: File | null; // assuming it's a file upload
+    nationalIDPhoto?: string; // assuming it's a file upload
     phone: string;
     email: string;
     homeAddress?: string;
@@ -55,12 +55,10 @@ export type User = {
     };
     userID?: string;
     notificationPreferences?: string;
-    twoFactorAuth?: boolean;
+    twoFactorAuth: "Enabled" | "Disabled";
     securityQuestions?: {
-        question1?: string;
-        answer1?: string;
-        question2?: string;
-        answer2?: string;
+        question?: string;
+        answer?: string;
     };
     consentAgreements?: boolean;
     customFields?: any; // assuming it can be any type
@@ -87,15 +85,15 @@ export type UpdateUserTypes = {
     surName: string;
     givenName: string;
     otherNames?: string;
-    photograph?: File | null; // assuming it's a file upload
-    gender?: string;
+    photograph?: string; // assuming it's a file upload
+    gender: "Male" | "Female" | "Other";
     tribe?: string;
     religion?: string;
     placeOfBirth?: string;
     currentParish?: string;
-    birthday: Date;
+    birthday?: Date;
     nationalIDNumber: string;
-    nationalIDPhoto?: File | null; // assuming it's a file upload
+    nationalIDPhoto?: string; // assuming it's a file upload
     phone: string;
     email: string;
     homeAddress?: string;
@@ -128,7 +126,7 @@ export type UpdateUserTypes = {
         sideHustleIncome?: string;
     };
     groupMembership?: {
-        joiningDate: Date;
+        joiningDate?: Date;
         recommender?: {
             fullName?: string;
             nationalID?: string;
@@ -137,12 +135,10 @@ export type UpdateUserTypes = {
         };
     };
     notificationPreferences?: string;
-    twoFactorAuth?: boolean;
+    twoFactorAuth: "Enabled" | "Disabled";
     securityQuestions?: {
-        question1?: string;
-        answer1?: string;
-        question2?: string;
-        answer2?: string;
+        question?: string;
+        answer?: string;
     };
     consentAgreements?: boolean;
     customFields?: any; // assuming it can be any type
