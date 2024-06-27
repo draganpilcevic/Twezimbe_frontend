@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { File, LucideCircleUser } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import GroupCreateDialog from "./group-create&join-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
@@ -33,10 +34,17 @@ const PrimaryMenu = () => {
                     <a href={'/'} className="text-[#2f578b]">Features</a>
                     <a href={'/'} className="text-[#2f578b]">Book Demo</a>
                     <a href={'/#process'} className="text-[#2f578b]">Process</a>
-                    <a href={'/#benefits'} className="text-[#2f578b]">Group</a>
-                    <a href={'/apply'} className=" text-[#2f578b]">Get Started</a>
+                    {
+                        userInfo?._id && (
+                            <GroupCreateDialog/>
+                        )
+                    }
+                    
+                    {/* <a href={'/apply'} className=" text-[#2f578b]">Get Started</a> */}
                 </span>
             </div>
+
+
 
             <div className="hidden md:block">
                 {userInfo?._id
@@ -44,7 +52,7 @@ const PrimaryMenu = () => {
                     <Popover>
                         <PopoverTrigger className="flex items-center gap-2">
                             <Avatar>
-                                <AvatarImage src="/assets/avatar.svg" className="bg-black"/>
+                                <AvatarImage src="/assets/avatar.svg" className="bg-black" />
                                 <AvatarFallback>{iconTextGenerator(userInfo.surName, userInfo.givenName)}</AvatarFallback>
                             </Avatar>
                             <p className="text-[#2f578b]">{userInfo.surName}</p>

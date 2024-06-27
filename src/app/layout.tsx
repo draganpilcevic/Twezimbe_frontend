@@ -3,7 +3,9 @@ import StoreContext from "@/context/user";
 import { Inter } from "next/font/google";
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Toaster } from 'sonner';
 import "./globals.css";
+
 const inter = Inter({ subsets: ["latin"] });
 
 const helmetContext = {}
@@ -31,6 +33,8 @@ export default function RootLayout({
     <html lang="en">
       <title>Welcome to Twezimbe</title>
       <body className={inter.className}>
+      <Toaster visibleToasts={1} position='top-right' richColors />
+
         <StoreContext>
           <QueryClientProvider client={queryClient} >
             <HelmetProvider context={helmetContext}>

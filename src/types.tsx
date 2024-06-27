@@ -65,12 +65,6 @@ export type User = {
     createdAt: Date;
 };
 
-
-export type CreateRoleTypes = {
-    role_name: string;
-    description: string;
-};
-
 export type CreateUserTypes = {
     email: string;
     surName: string;
@@ -152,6 +146,42 @@ export type SignInTypes = {
 export type OPTTypes = {
     otp: string;
 }
+
+
+export type CreateRoleTypes = {
+    role_name: string;
+    description: string;
+};
+
+export type GroupTypes = {
+    _id: string
+    name: string;
+    group_type: string;
+    tags: string;
+    description: string;
+    created_by: string;
+    del_flag: number;
+};
+
+export type CreateGroupTypes = {
+    name: string;
+    group_type?: string;
+    tags?: string;
+    description?: string;
+    created_by?: string;
+};
+
+export type UpdateGroupTypes = {
+    name: string;
+    group_type?: string;
+    description?: string;
+    created_by?: string;
+};
+
+export type JoinedGroupTypes = {
+    group_id: string;
+    role_name: string;
+};
 
 export type Application = {
     _id: string;
