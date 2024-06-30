@@ -4,7 +4,7 @@ import { useRef } from "react"
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 // import { Input } from "./ui/input"
 import { useGetProfileData } from "@/api/auth"
-import { useAddGroup, useGetGroupList, useGetjoinedGroupList } from "@/api/group"
+import { useAddGroup, useGetGroupList, useGetjoinedGroupList, useJoinGroup } from "@/api/group"
 import CreateGroupForm from "./forms/CreateGroupForm"
 import JoinGroupForm from "./forms/JoinGroupForm"
 import { Card } from "./ui/card"
@@ -15,7 +15,7 @@ const GroupCreateDialog = () => {
   const { addGroup, isLoading } = useAddGroup();
   const { groupList } = useGetGroupList();
   const { joinedGroupList } = useGetjoinedGroupList(currentUser?._id as string)
-  // const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([])
+  const { joinGroup } = useJoinGroup();
   console.log('-------------joinedGroupList', joinedGroupList);
   
   const imgRef = useRef<HTMLInputElement>(null)
@@ -25,7 +25,7 @@ const GroupCreateDialog = () => {
   return (
     <Dialog>
       <DialogTrigger className="text-[#2f578b]">
-        Create Group
+        Group
       </DialogTrigger>
       <Card>
 
@@ -50,7 +50,7 @@ const GroupCreateDialog = () => {
             </TabsContent>
             <TabsContent value="join" className="space-y-4">
               <JoinGroupForm
-                // onSave={addGroup}
+                onSave={joinGroup}
                 groupList={groupList}
                 joinedGroupList={joinedGroupList}
                 // isLoading={isLoading}

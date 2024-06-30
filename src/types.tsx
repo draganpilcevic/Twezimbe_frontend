@@ -88,7 +88,7 @@ export type UpdateUserTypes = {
     birthday?: Date;
     nationalIDNumber: string;
     nationalIDPhoto?: string; // assuming it's a file upload
-    phone: string;
+    phone?: string;
     email: string;
     homeAddress?: string;
     homeLocation?: string;
@@ -161,6 +161,8 @@ export type GroupTypes = {
     description: string;
     created_by: string;
     del_flag: number;
+    createdAt: Date;
+    
 };
 
 export type CreateGroupTypes = {
@@ -182,6 +184,31 @@ export type JoinedGroupTypes = {
     group_id: string;
     role_name: string;
 };
+
+export type JoinGroupTypes = {
+    user_id?: string;
+    groud_id?: string;
+};
+
+
+export type CourseProgressTypes = {
+    currentStep: number;
+    completed: number;
+};
+
+export type CourseTypes = {
+        id: string;
+        title: string;
+        slug: string;
+        description: string;
+        category: string;
+        duration: number;
+        totalSteps: number;
+        updatedAt: string;
+        featured: boolean;
+        progress: CourseProgressTypes
+}
+
 
 export type Application = {
     _id: string;

@@ -16,11 +16,13 @@ import LoadingButton from '../LoadingButton';
 import { Checkbox } from '../ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 
+const phoneRegex = /^\+\d{1,3}-\d{3}-\d{6}$/;
+
 // Defining the form schema using Zod
 const formSchema = z.object({
     title: z.string().optional(),
-    surName: z.string().min(1, "Surname is required"),
-    givenName: z.string().min(1, "Given Name is required"),
+    surName: z.string().min(2, "Surname is required"),
+    givenName: z.string().min(2, "Given Name is required"),
     otherNames: z.string().optional(),
     photograph: z.string().optional(),
     gender: z.enum(['Male', 'Female', 'Other']).default('Male'),
@@ -28,10 +30,12 @@ const formSchema = z.object({
     religion: z.string().optional(),
     placeOfBirth: z.string().optional(),
     currentParish: z.string().optional(),
-    birthday: z.date().optional(),
+    birthday: z.any(),
     nationalIDNumber: z.string().length(14, "National ID Number must be exactly 14 characters long"),
     nationalIDPhoto: z.string().optional(),
-    phone: z.string().min(10, "Phone number is required"),
+    phone: z.string().optional().refine((val) => val === undefined || val === "" || phoneRegex.test(val), {
+        message: "Phone number must include country code and be formatted correctly"
+    }),
     email: z.string().email("Invalid email address"),
     homeAddress: z.string().optional(),
     homeLocation: z.string().optional(),
@@ -46,11 +50,13 @@ const formSchema = z.object({
         nationalID: z.string().optional(),
         contactName: z.string().optional(),
         contactPhone: z.string().optional(),
-        contactEmail: z.string().optional()
+        contactEmail:  z.string().optional().refine((val) => val === undefined || val === "" || z.string().email().safeParse(val).success, {
+            message: "Invalid email address"
+        }),
     }).optional(),
     monthlyIncome: z.string().optional(),
     bankName: z.string().optional(),
-    accountNumber: z.string().optional(),
+    accountNumber: z.string().min(8).max(17).optional(),
     registeredMobileAccount: z.string().optional(),
     registeredEmailWithBank: z.string().optional(),
     highestEducation: z.string().optional(),
@@ -63,7 +69,7 @@ const formSchema = z.object({
         sideHustleIncome: z.string().optional()
     }).optional(),
     groupMembership: z.object({
-        joiningDate: z.date().optional(),
+        joiningDate: z.any(),
         recommender: z.object({
             fullName: z.string().optional(),
             nationalID: z.string().optional(),
@@ -103,6 +109,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema),
         defaultValues: currentUser,
+         mode: 'onChange'
     });
 
 
@@ -276,8 +283,9 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                         }
                                         primaryColor="blue"
                                     />
-
                                 </FormControl>
+                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -334,7 +342,6 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                 <FormControl>
                                     {/* <Input {...field} className='bg-white' placeholder="DD/MM/YYYY" /> */}
                                     <Datepicker options={{
-                                        title: "Select Date" as string,
                                         autoHide: true as boolean,
                                         todayBtn: false as boolean,
                                         clearBtn: true as boolean,
@@ -353,7 +360,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                             selected: "" as string,
                                         },
                                         datepickerClassNames: "top-50" as string,
-                                        defaultDate: new Date(field?.value ? field.value : '2024-06-26') as Date,
+                                        defaultDate: new Date(field?.value ? field.value : '1950-01-01') as Date,
                                         language: "en" as string,
                                         disabledDates: [] as any,
                                         weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"] as any,
@@ -362,7 +369,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                         inputPlaceholderProp: "Select Date" as string,
                                         inputDateFormatProp: {
                                             day: "numeric" as any,
-                                            month: "long" as any,
+                                            month: "numeric" as any,
                                             year: "numeric" as any
                                         }
                                     }} onChange={field.onChange} show={showBirthday} setShow={handleBirthdayClose} />
@@ -389,10 +396,10 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
 
                                             {avatarFile.file ?
                                                 <span className='w-full h-full flex overflow-y-hidden'>
-                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={avatarFile.url} alt="" />
+                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={avatarFile.url} alt="Photograph" />
                                                 </span>
                                                 : <span className='w-full h-full flex overflow-y-hidden'>
-                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.photograph === 'default' || !currentUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="" />
+                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.photograph === 'default' || !currentUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="Photograph" />
                                                 </span>
                                             }
                                         </div>
@@ -585,12 +592,12 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                         </div>
                                         <div className='justify-center flex group items-center h-[10rem] w-[10rem] overflow-y-hidden bg-[#e1e1e1] hover:bg-[#cbcbcb] transition-all dark:bg-[rgb(30,30,30)] dark:hover:bg-[rgb(33,33,33)] cursor-pointer dark:border-[rgb(18,18,18)] border-[#ffffff] border-[5px] rounded-[10%]'>
 
-                                            {avatarFile.file ?
+                                            {IDPhoto.file ?
                                                 <span className='w-full h-full flex overflow-y-hidden'>
-                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={avatarFile.url} alt="" />
+                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={IDPhoto.url} alt="ID photo" />
                                                 </span>
                                                 : <span className='w-full h-full flex overflow-y-hidden'>
-                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.nationalIDPhoto === 'default' || !currentUser?.nationalIDPhoto) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="" />
+                                                    <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.nationalIDPhoto === 'default' || !currentUser?.nationalIDPhoto) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="ID photo" />
                                                 </span>
                                             }
                                         </div>
@@ -611,7 +618,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                             <FormItem className='w-[31%]'>
                                 <FormLabel>Phone Number</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className='bg-white' />
+                                    <Input {...field} className='bg-white' placeholder='+256-000-000000'/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -626,7 +633,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                             <FormItem className='w-[31%]'>
                                 <FormLabel>Email Address</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className='bg-white' />
+                                    <Input {...field} className='bg-white' readOnly/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -1040,7 +1047,6 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                 <FormControl>
                                     {/* <Input {...field} className='bg-white' placeholder="DD/MM/YYYY" /> */}
                                     <Datepicker options={{
-                                        title: "Select Date" as string,
                                         autoHide: true as boolean,
                                         todayBtn: false as boolean,
                                         clearBtn: true as boolean,
@@ -1059,7 +1065,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                             selected: "" as string,
                                         },
                                         datepickerClassNames: "top-120" as string,
-                                        defaultDate: new Date(field?.value ? field.value : '2024-06-26') as Date,
+                                        defaultDate: new Date(field?.value ? field.value : '1950-01-01') as Date,
                                         language: "en" as string,
                                         disabledDates: [] as any,
                                         weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"] as any,
@@ -1071,7 +1077,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                                             month: "long" as any,
                                             year: "numeric" as any
                                         }
-                                    }} onChange={field.onChange} show={show} setShow={handleClose} 
+                                    }} onChange={field.onChange} show={show} setShow={handleClose}
                                     />
                                 </FormControl>
                                 <FormMessage />

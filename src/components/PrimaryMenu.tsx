@@ -10,7 +10,6 @@ import Cookies from "js-cookie";
 import { File, LucideCircleUser } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import GroupCreateDialog from "./group-create&join-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
@@ -34,13 +33,17 @@ const PrimaryMenu = () => {
                     <a href={'/'} className="text-[#2f578b]">Features</a>
                     <a href={'/'} className="text-[#2f578b]">Book Demo</a>
                     <a href={'/#process'} className="text-[#2f578b]">Process</a>
-                    {
+                    {/* {
                         userInfo?._id && (
                             <GroupCreateDialog/>
                         )
+                    } */}
+                    {
+                        userInfo?._id && (
+                            <a href={'/Group'} className=" text-[#2f578b]">Group</a>
+                        )
                     }
                     
-                    {/* <a href={'/apply'} className=" text-[#2f578b]">Get Started</a> */}
                 </span>
             </div>
 
@@ -74,7 +77,7 @@ const PrimaryMenu = () => {
                         </PopoverContent>
                     </Popover>
                     :
-                    <Link href={'/public_pages/SignIn'} className="hidden md:block text-blue-950 px-4 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 font-bold">Sign In</Link>
+                    <Link href={'/Sign'} className="hidden md:block text-blue-950 px-4 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 font-bold">Sign In</Link>
                 }
             </div>
         </>

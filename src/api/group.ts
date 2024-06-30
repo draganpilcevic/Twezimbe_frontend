@@ -1,4 +1,4 @@
-import { CreateGroupTypes, GroupTypes, JoinedGroupTypes } from "@/types";
+import { CreateGroupTypes, GroupTypes, JoinedGroupTypes, JoinGroupTypes } from "@/types";
 import Cookies from "js-cookie";
 import { useMutation, useQuery } from 'react-query';
 import { toast } from 'sonner';
@@ -95,4 +95,46 @@ export const useGetjoinedGroupList = (userId: string) => {
     const { data: joinedGroupList, isLoading } = useQuery("joinedGroupList", () => getJoinedGroupList(userId));
 
     return { joinedGroupList, isLoading }
+};
+
+
+export const useJoinGroup = () => {
+    const accessToken = Cookies.get('access-token');
+    const JoinGroupRequest = async (joinData: JoinGroupTypes) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/group/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(joinData),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(responseData.message);
+        }
+        
+
+    };
+
+    const { mutateAsync: joinGroup, isLoading, isError, isSuccess, error, reset } = useMutation(JoinGroupRequest);
+
+    if (isSuccess) {
+        toast.success("Joined Succesfully!");
+        window.location.reload();
+    }
+
+    if (error) {
+        toast.error(error.toString());
+        reset();
+    }
+    
+    return {
+        joinGroup,
+        isLoading,
+        isError,
+        isSuccess
+    }
 };
