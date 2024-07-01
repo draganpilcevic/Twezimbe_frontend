@@ -147,6 +147,7 @@ export const useResetPassword = () => {
 
 export const useValidateOTP = () => {
     const SignInRequest = async (data: OPTTypes) => {
+        console.log("opt", data)
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/verify`, {
             method: 'POST',
             headers: {

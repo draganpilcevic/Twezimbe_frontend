@@ -10,7 +10,7 @@ import Hero from "@/components/sections/Hero";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <HelmetComponent title="Welcome to QuickSacco" description="The quickest way to apply for a Loan in SACCO" />
+      <HelmetComponent title="Welcome to Twezimbe" description="The quickest way to apply for a Loan in SACCO" />
       <Header />
       <Hero/>
       <FastAndEffiscient />

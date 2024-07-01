@@ -6,29 +6,29 @@ export type User = {
     otherNames?: string;
     photograph?: string; // assuming it's a file upload
     gender: "Male" | "Female" | "Other";
-    tribe?: string;
-    religion?: string;
-    placeOfBirth?: string;
-    currentParish?: string;
+    tribe: string;
+    religion: string;
+    placeOfBirth: string;
+    currentParish: string;
     birthday: Date;
     nationalIDNumber: string;
     nationalIDPhoto?: string; // assuming it's a file upload
     phone: string;
     email: string;
-    homeAddress?: string;
-    homeLocation?: string;
-    districtOfBirth?: string;
-    birthParish?: string;
-    birthVillage?: string;
-    birthHome?: string;
+    homeAddress: string;
+    homeLocation: string;
+    districtOfBirth: string;
+    birthParish: string;
+    birthVillage: string;
+    birthHome: string;
     maritalStatus?: string;
-    profession?: string;
-    jobTitle?: string;
-    nextOfKin?: {
-        nationalID?: string;
-        contactName?: string;
-        contactPhone?: string;
-        contactEmail?: string;
+    profession: string;
+    jobTitle: string;
+    nextOfKin: {
+        nationalID: string;
+        contactName: string;
+        contactPhone: string;
+        contactEmail: string;
     };
     monthlyIncome?: string;
     bankName?: string;
@@ -61,7 +61,8 @@ export type User = {
         answer?: string;
     };
     consentAgreements?: boolean;
-    customFields?: any; // assuming it can be any type
+    customFields?: any;
+    is_profileCompleted: boolean;
     createdAt: Date;
 };
 
@@ -69,7 +70,7 @@ export type CreateUserTypes = {
     email: string;
     surName: string;
     givenName: string;
-    phone: string;
+    phone?: string;
     password: string;
     role: string;
 }

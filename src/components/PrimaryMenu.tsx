@@ -33,21 +33,13 @@ const PrimaryMenu = () => {
                     <a href={'/'} className="text-[#2f578b]">Features</a>
                     <a href={'/'} className="text-[#2f578b]">Book Demo</a>
                     <a href={'/#process'} className="text-[#2f578b]">Process</a>
-                    {/* {
-                        userInfo?._id && (
-                            <GroupCreateDialog/>
-                        )
-                    } */}
                     {
                         userInfo?._id && (
                             <a href={'/Group'} className=" text-[#2f578b]">Group</a>
                         )
                     }
-                    
                 </span>
             </div>
-
-
 
             <div className="hidden md:block">
                 {userInfo?._id
@@ -77,7 +69,7 @@ const PrimaryMenu = () => {
                         </PopoverContent>
                     </Popover>
                     :
-                    <Link href={'/Sign'} className="hidden md:block text-blue-950 px-4 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 font-bold">Sign In</Link>
+                    <Link href={'/auth/SignIn'} onClick={() => window.localStorage.setItem('menu', 'SignIn')} className="hidden md:block text-blue-950 px-4 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 font-bold">Sign In</Link>
                 }
             </div>
         </>

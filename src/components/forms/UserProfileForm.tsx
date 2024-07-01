@@ -112,8 +112,6 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
          mode: 'onChange'
     });
 
-
-
     const [title, setTitle] = useState<SelectValue | null>({
         value: currentUser?.title as string,
         label: currentUser?.title as string
