@@ -32,7 +32,7 @@ export default function HomeLayout({
 
   return (
     <div className="relative flex flex-col min-h-screen bg-[url('/assets/auth-bkg-day-1.jpg')] bg-cover bg-center">
-      <div className="absolute inset-0 bg-gradient-to-t from-black to-gray-800 opacity-95 z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black to-gray-800 opacity-80 z-0"></div>
       <div className="relative z-10 items-center text-center">
         <div className="sticky top-0 z-50 items-center">
           <div className="py-2 md:py-4 md:container mx-auto flex justify-between items-center">

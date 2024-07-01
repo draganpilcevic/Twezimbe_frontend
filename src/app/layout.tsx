@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <title>Welcome to Twezimbe</title>
-      <body className={`font-serif`}>
+      <body >
       <Toaster visibleToasts={1} position='top-right' richColors />
 
         <StoreContext>
