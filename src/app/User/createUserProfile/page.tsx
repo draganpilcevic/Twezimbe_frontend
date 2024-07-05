@@ -5,7 +5,7 @@ import { User } from "@/types";
 import { Card, CircularProgress, List, ListItem, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
 import Cookies from "js-cookie";
-import { BarChartIcon, User2Icon } from "lucide-react";
+import { BarChartIcon, CheckCircleIcon, User2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -72,25 +72,40 @@ const CreateUserProfile = () => {
                             setStep(1); setSubStep(1)
                         }}>
                             <User2Icon className="h-5 w-5" />
-                            Main Info
+                            <div className="flex justify-between w-full">
+                                <p>Main Info</p>
+                                <CheckCircleIcon color={`${progress >= 48 ? 'green' : 'white'}`} />
+                            </div>
                         </ListItem>
                         <ListItem className={`"hover:bg-green-600" ${step === 2 ? 'bg-green-600' : ''}`} onClick={() => {
                             setStep(2); setSubStep(13)
                         }}>
                             <BarChartIcon className="h-5 w-5" />
-                            Financial Info
+
+                            <div className="flex justify-between w-full">
+                                <p>Financial Info</p>
+                                <CheckCircleIcon color={`${progress >= 56 ? 'green' : 'white'}`} />
+                            </div>
                         </ListItem>
                         <ListItem className={`"hover:bg-green-600" ${step === 3 ? 'bg-green-600' : ''}`} onClick={() => {
                             setStep(3); setSubStep(15)
                         }}>
                             <BarChartIcon className="h-5 w-5" />
-                            Educational Info
+
+                            <div className="flex justify-between w-full">
+                                <p>Educational Info</p>
+                                <CheckCircleIcon color={`${progress >= 60 ? 'green' : 'white'}`} />
+                            </div>
                         </ListItem>
                         <ListItem className={`"hover:bg-green-600" ${step === 4 ? 'bg-green-600' : ''}`} onClick={() => {
                             setStep(4); setSubStep(16)
                         }}>
                             <BarChartIcon className="h-5 w-5" />
-                            Employment Info
+
+                            <div className="flex justify-between w-full">
+                                <p>Employment Info</p>
+                                <CheckCircleIcon color={`${progress >= 80 ? 'green' : 'white'}`} />
+                            </div>
                         </ListItem>
                         {/* <ListItem className={`"hover:bg-green-600" ${step === 5 ? 'bg-green-600' : ''}`} onClick={() => {
                             setStep(5); setSubStep(19)
@@ -108,28 +123,32 @@ const CreateUserProfile = () => {
                             setStep(6); setSubStep(19)
                         }}>
                             <BarChartIcon className="h-5 w-5" />
-                            Additional Enhancements
+
+                            <div className="flex justify-between w-full">
+                                <p>Additional Enhancements</p>
+                                <CheckCircleIcon color={`${progress >= 100 ? 'green' : 'white'}`} />
+                            </div>
                         </ListItem>
                     </List>
                 </Card>
             </div>
             <div className="ml-80">
                 {currentUser && (
-                    <section className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-4 p-5 md:p-0">
-                      <UserCreateProfileForm 
-                        currentUser={currentUser}
-                        onSave={updateAccount}
-                        isLoading={isLoading}
-                        step={step}
-                        setStep={setStep}
-                        subStep={subStep}
-                        setSubStep={setSubStep}
-                        progress={progress}
-                        setProgress={setProgress}
-                      />
-                    </div>
-                  </section>
+                    <section className="flex flex-col gap-4 fixed">
+                        <div className="flex flex-col gap-4 p-5 md:p-0">
+                            <UserCreateProfileForm
+                                currentUser={currentUser}
+                                onSave={updateAccount}
+                                isLoading={isLoading}
+                                step={step}
+                                setStep={setStep}
+                                subStep={subStep}
+                                setSubStep={setSubStep}
+                                progress={progress}
+                                setProgress={setProgress}
+                            />
+                        </div>
+                    </section>
                 )}
             </div>
         </>

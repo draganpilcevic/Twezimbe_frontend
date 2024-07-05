@@ -263,9 +263,16 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className=' bg-gray-50 rounded-lg md:p-10 h-screen'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className=' bg-gray-50 md:p-10 h-screen'>
                 <div className='justify-between flex'>
-                    {subStep > 1 && (<ArrowLeft onClick={() => setSubStep(subStep - 1)} />)}
+                    {subStep > 1 && (<ArrowLeft
+                        onClick={() => {
+                            setSubStep(subStep - 1);
+                            if (subStep === 13) {setStep(1)}
+                            if (subStep === 15) {setStep(2)}
+                            if (subStep === 16) {setStep(3)}
+                            if (subStep === 19) {setStep(4)}
+                        }} />)}
                     <FlagIcon />
                 </div>
                 {step === 1 && (
@@ -623,7 +630,7 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
                                         </FormItem>
                                     )}
                                 />
-                                <Button className='block bg-green-600 text-white w-3/4 hover:bg-green-400' onClick={() => {
+                                <Button className='block bg-green-600 text-white w-3/4 bg-green-600bg-green-600bg-green-600bg-green-600' onClick={() => {
                                     setSubStep(subStep + 1); setProgress(28);
                                 }}>Next</Button>
                             </div>

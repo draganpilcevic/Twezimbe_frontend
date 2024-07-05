@@ -1,6 +1,8 @@
 "use client"
 import StoreContext from "@/context/user";
+
 import { Inter } from "next/font/google";
+
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Toaster } from 'sonner';
@@ -29,6 +31,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
   return (
     <html lang="en">
       <title>Welcome to Twezimbe</title>

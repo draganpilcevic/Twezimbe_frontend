@@ -122,6 +122,9 @@ const Header = () => {
             >
               Testimonial
             </LinkScroll>
+            {userInfo?._id && (
+              <Link href={'/Group'}>Group</Link>
+            )}
           </ul>
 
           <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">

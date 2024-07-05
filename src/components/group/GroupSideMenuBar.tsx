@@ -1,29 +1,58 @@
 "use client"
+import { useGetjoinedGroupList } from "@/api/group"
+import { JoinedGroupTypes } from "@/types"
 import Cookies from "js-cookie"
-import { LogOut, Menu, Users } from "lucide-react"
+import { LogOut, Menu } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import GeneralIcon from "../icons/GeneralIcon"
-import ManagersIcon from "../icons/Managers"
 
 type Props = {
     toggleSideBar: () => void,
     isVisible: boolean
 }
 
-const GroupSideMenuBar = ({toggleSideBar, isVisible}: Props) => {
+interface Group {
+    createdAt: string;
+    created_by: string;
+    del_flag: number;
+    description: string;
+    group_id: string;
+    group_name: string;
+    group_type: string;
+    role_name: string;
+    tags: string;
+    updatedAt: string;
+    _id: string;
+}
+
+interface Groups {
+    joinedList: Group[];
+}
+
+const GroupSideMenuBar = ({ toggleSideBar, isVisible }: Props) => {
+    const userId = window.localStorage.getItem('user')
+    const { joinedGroupList } = useGetjoinedGroupList(userId as string);
+    console.log('joined group list ', joinedGroupList);
+
+    const [groupList, setGroupList] = useState<JoinedGroupTypes[]>([]);
     // const [isVisible, setIsVisible] = useState(true);
 
     // const toggleSideBar = () => {
     //     setIsVisible(!isVisible);
     // }
+    useEffect(() => {
+        if (joinedGroupList) {
+            setGroupList(joinedGroupList);
+        }
+    }, []);
 
     const logout = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Logged out");
-
     }
+
 
     return (
         <div className="flex bg-[#0f172a] fixed">
@@ -35,10 +64,10 @@ const GroupSideMenuBar = ({toggleSideBar, isVisible}: Props) => {
                         </span>
                     </div>
 
-                    <div className="">
+                    <div className="flex flex-row">
                         <div className="px-2">
-                            <div className="py-4">
-                                <Link href="/admin" className="t group relative flex justify-center rounded bg-blue-50 px-2 py-1.5 text-black">
+                            <div className="">
+                                <Link href="/Group" className="t group relative flex justify-center rounded bg-blue-50 px-2 py-1.5 text-black">
                                     <GeneralIcon />
                                     <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
                                         All Groups
@@ -47,47 +76,19 @@ const GroupSideMenuBar = ({toggleSideBar, isVisible}: Props) => {
                             </div>
 
                             <ul className="space-y-1 pt-4">
-                                <li>
-                                    <Link href="/admin/managers" className="group relative flex justify-center rounded px-2 py-1.5 text-slate-200 hover:bg-gray-50 hover:text-gray-700">
-                                        <ManagersIcon />
-                                        <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                                            Managers
-                                        </span>
-                                    </Link>
-                                </li>
+                                {joinedGroupList?.map((group) => (
+                                    <li key={group?.group_id}>
+                                        <Link href={`/Group/${group?.group_id}/${group?.role_name}`} className="group relative flex justify-center rounded px-2 py-1.5 text-slate-200 hover:bg-gray-50 hover:text-gray-700">
+                                            <Image src={(group?.group_avatar === 'default' || !group?.group_avatar) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${group?.group_avatar}`} height={50} width={50} alt="group avatar" className="rounded-full" />
+                                            <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
+                                                {group?.group_name}
+                                            </span>
+                                        </Link>
+                                    </li>
+                                ))}
 
                                 <li>
-                                    <Link href="/admin/teachers" className="group relative flex justify-center rounded px-2 py-1.5 text-slate-200 hover:bg-gray-50 hover:text-gray-700">
-                                        <Users size={18} />
-                                        <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                                            Users
-                                        </span>
-                                    </Link>
-                                </li>
 
-
-
-                                <li>
-                                    <Link href="/admin/profile" className="group relative flex justify-center rounded px-2 py-1.5 text-slate-200 hover:bg-gray-50 hover:text-gray-700">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="size-5 opacity-75"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                            />
-                                        </svg>
-
-                                        <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                                            Account
-                                        </span>
-                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -96,24 +97,43 @@ const GroupSideMenuBar = ({toggleSideBar, isVisible}: Props) => {
 
                 <div className="sticky inset-x-0 bottom-0 p-2">
                     {/* <form onSubmit={logout}> */}
-                        <button onClick={() => {
-                                Cookies.remove('access-token');
-                                window.location.reload();
-                                // setUser(false);
-                            }} type="button" className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-slate-200 hover:bg-gray-50 hover:text-gray-700">
-                            <LogOut />
-                            <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                                Logout
-                            </span>
-                        </button>
+                    <Link href="/admin/profile" className="group relative flex justify-center rounded px-2 py-1.5 text-slate-200 hover:bg-gray-50 hover:text-gray-700">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="size-5 opacity-75"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                            />
+                        </svg>
+
+                        <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
+                            Account
+                        </span>
+                    </Link>
+                    <button onClick={() => {
+                        Cookies.remove('access-token');
+                        window.location.reload();
+                        // setUser(false);
+                    }} type="button" className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-slate-200 hover:bg-gray-50 hover:text-gray-700">
+                        <LogOut />
+                        <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
+                            Logout
+                        </span>
+                    </button>
                     {/* </form> */}
                 </div>
             </div>
 
-            {isVisible &&
+            {/* {isVisible &&
                 <div className={`hidden md:flex min-h-screen flex-1 flex-col justify-between border-e`}>
                     <div className="px-4 py-4">
-                        {/* <Link href={'/'} className="text-3xl font-bold tracking-tight text-white">Twezimbe</Link> */}
                         <Link href={'/'} className="text-3xl font-bold tracking-tight text-white">
                             <Image src={'/logo.png'} width={200} height={50} alt="group" />
                         </Link>
@@ -210,7 +230,7 @@ const GroupSideMenuBar = ({toggleSideBar, isVisible}: Props) => {
                         </ul>
                     </div>
                 </div>
-            }
+            } */}
         </div>
     )
 }

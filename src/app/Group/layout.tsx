@@ -1,9 +1,9 @@
 "use client"
 import GroupSideMenuBar from "@/components/group/GroupSideMenuBar";
-import GroupTopBar from "@/components/group/GroupTopBar";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 export default function GroupLayout({
   children,
 }: Readonly<{
@@ -21,7 +21,7 @@ export default function GroupLayout({
 
   useEffect(() => {
     if (!access_token) {
-      router.push('/public_pages/SignIn')
+      router.push('/auth/SignIn')
     }
   }, [])
   return (
@@ -32,14 +32,8 @@ export default function GroupLayout({
           toggleSideBar={toggleSideBar}
           isVisible={isVisible}
         />
-        <div className={`flex flex-col w-full bg-slate-100 ${isVisible ? "ml-72" : "ml-14"}`}>
-          <GroupTopBar
-            isVisible={isVisible}
-          />
-          <div className="p-5 mt-16">
-            {children}
-          </div>
-        </div>
+        
+        {children}
       </div>
     </>
   )

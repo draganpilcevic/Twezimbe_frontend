@@ -54,7 +54,7 @@ export default function CreateUserProfileLayout({
     <div className="relative flex flex-col min-h-screen">
       <div className="absolute inset-0 bg-gradient-to-t from-black to-gray-800 opacity-95 z-0"></div>
       <div className="relative z-10 items-center text-center">
-        <div className="sticky top-0 z-50 items-center bg-gray-950">
+        <div className="sticky top-0 z-50 items-center bg-gray-900">
           <div className=" py-2 md:py-4 md:container mx-auto flex justify-between items-center">
             <Link href={'/'} className=""><Image src={'/logo.png'} width={150} height={45} alt="logo" quality={100} /></Link>
             <div className="space-x-5 flex">
@@ -85,7 +85,7 @@ export default function CreateUserProfileLayout({
             </div>
           </div>
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full fixed">
           <div className="w-5/6">
             {children}
           </div>

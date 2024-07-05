@@ -56,12 +56,13 @@ export const useSignIn = () => {
 
         if (!response.ok) {
             throw new Error(responseData.message);
+
         }
-        
         Cookies.set('access-token', responseData.token, {
             secure: environment === "production" ? true : false,
             expires: 1/24
         });
+        
 
         
     };
@@ -223,10 +224,13 @@ export const useGetProfileData = () => {
             throw new Error(responseData.message);
         }
 
+        
         return responseData;
     };
 
     const { data: currentUser, isLoading } = useQuery("userInfo", () => getUserProfileRequest());
+
+    window.localStorage.setItem('user', currentUser?._id as string)
 
     return { currentUser, isLoading }
 };
@@ -268,4 +272,55 @@ export const useUpdateUserAccount = () => {
         updateAccount,
         isLoading
     }
+};
+
+export const useGetAllUsers = () => {
+    const accessToken = Cookies.get('access-token');
+    const getAllUsersRequest = async (): Promise<User[]> => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/allUser`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+
+        const responseData = await response.json();
+        
+        const { allUsers } = responseData
+        
+        if (!response.ok) {
+            throw new Error(responseData.message);
+        }
+
+        return allUsers;
+    };
+
+    const { data: allUsers, isLoading } = useQuery("allUsers", () => getAllUsersRequest());
+
+    return { allUsers, isLoading }
+};
+
+export const useGetGroupUserList = (groupId: string) => {
+    const accessToken = Cookies.get('access-token');
+    
+    const getGroupUserList = async (groupId: string): Promise<User[]> => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/findByGroupId?groupId=${groupId}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        });
+
+        const responseData = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(responseData.message);
+        }
+
+        const { groupUserList} = responseData
+
+        return groupUserList;
+    };
+
+    const { data: groupUserList, isLoading } = useQuery("groupUserList", () => getGroupUserList(groupId));
+
+    return { groupUserList, isLoading }
 };

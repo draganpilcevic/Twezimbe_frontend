@@ -4,7 +4,7 @@ import { GroupTypes } from '@/types';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import { CaptionsIcon, Clock10Icon, LucideCheckCircle2 } from 'lucide-react';
+import { CaptionsIcon, Clock10Icon, LucideCheckCircle2, } from 'lucide-react';
 import CourseCategory from './CourseCategory';
 
 type Props = {

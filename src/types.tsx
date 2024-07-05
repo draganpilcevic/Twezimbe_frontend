@@ -63,6 +63,7 @@ export type User = {
     consentAgreements?: boolean;
     customFields?: any;
     is_profileCompleted: boolean;
+    is_active: boolean;
     createdAt: Date;
 };
 
@@ -169,6 +170,9 @@ export type GroupTypes = {
 export type CreateGroupTypes = {
     name: string;
     group_type?: string;
+    group_state?: string;
+    selectedUsers_Id?: string[];
+    group_avatar?:string;
     tags?: string;
     description?: string;
     created_by?: string;
@@ -184,6 +188,16 @@ export type UpdateGroupTypes = {
 export type JoinedGroupTypes = {
     group_id: string;
     role_name: string;
+    group_name: string;
+    group_type: string;
+    group_state: string;
+    group_avatar: string;
+    description: string;
+    tags: string;
+    created_by: string;
+    del_flag: number;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export type JoinGroupTypes = {
