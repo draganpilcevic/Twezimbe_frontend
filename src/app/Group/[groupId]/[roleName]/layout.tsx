@@ -18,7 +18,6 @@ export default function GroupMainPageLayout({
 
   const { groupUserList } = useGetGroupUserList(params?.groupId as string)
   const [selectedUser, setSelectedUser] = useState<User>()
-  console.log("selected User", selectedUser);
   
 
   const logout = () => {

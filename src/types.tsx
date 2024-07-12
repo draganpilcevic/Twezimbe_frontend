@@ -159,6 +159,7 @@ export type GroupTypes = {
     _id: string
     name: string;
     group_type: string;
+    group_avatar:string;
     tags: string;
     description: string;
     created_by: string;

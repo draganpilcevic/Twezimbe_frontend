@@ -35,7 +35,7 @@ const PrimaryMenu = () => {
                     <a href={'/#process'} className="text-[#2f578b]">Process</a>
                     {
                         userInfo?._id && (
-                            <a href={'/Group'} className=" text-[#2f578b]">Group</a>
+                            <a href={'/Groups'} className=" text-[#2f578b]">Group</a>
                         )
                     }
                 </span>

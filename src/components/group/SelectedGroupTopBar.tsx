@@ -9,7 +9,7 @@ import GroupInviteMemberDialog from "./invite-member"
 
 type Props = {
   groupUserList?: User[];
-  selectedUser: User;
+  selectedUser?: User;
   setSelectedUser: (selectedUser: User) => void;
 }
 const SelectedGroupTopBar = ({groupUserList, selectedUser, setSelectedUser}: Props) => {

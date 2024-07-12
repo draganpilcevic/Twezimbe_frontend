@@ -1,8 +1,6 @@
 "use client"
-import StoreContext from "@/context/user";
-
+import { MyProvider } from "@/context/MyContext";
 import { Inter } from "next/font/google";
-
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Toaster } from 'sonner';
@@ -32,20 +30,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  
   return (
     <html lang="en">
       <title>Welcome to Twezimbe</title>
       <body >
-      <Toaster visibleToasts={1} position='top-right' richColors />
+        <Toaster visibleToasts={1} position='top-right' richColors />
 
-        <StoreContext>
+        <MyProvider>
           <QueryClientProvider client={queryClient} >
             <HelmetProvider context={helmetContext}>
-              {children}
+                  {children}
             </HelmetProvider>
           </QueryClientProvider>
-        </StoreContext>
+        </MyProvider>
       </body>
     </html>
   );

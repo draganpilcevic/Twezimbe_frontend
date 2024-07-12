@@ -39,7 +39,7 @@ export type GroupFormData = z.infer<typeof formSchema>;
 type Props = {
   currentUser?: User,
   groupUserList?: User[],
-  selectedUser: User,
+  selectedUser?: User,
   setSelectedUser: (selectedUser: User) => void
 }
 

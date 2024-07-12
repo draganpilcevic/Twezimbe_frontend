@@ -1,15 +1,12 @@
 "use client"
 import { useGetProfileData } from "@/api/auth";
 import { GroupTypes, JoinedGroupTypes } from '@/types';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { ArrowRightIcon, InfoIcon } from 'lucide-react';
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { z } from 'zod';
 import CourseInfo from './CourseInfo';
-import CourseProgress from './CourseProgress';
 
 const formSchema = z.object({
     user_id: z.string().optional(),
@@ -23,11 +20,11 @@ type Props = {
     course: GroupTypes
     joinedGroupList?: JoinedGroupTypes[]
 }
- 
+
 
 function CourseCard({ course, onSave, joinedGroupList }: Props) {
     const { currentUser } = useGetProfileData();
-   
+
     const router = useRouter()
 
     const onSubmit = () => {
@@ -36,43 +33,24 @@ function CourseCard({ course, onSave, joinedGroupList }: Props) {
             user_id: currentUser?._id
         }
         console.log("currentUser", newData);
-        
+
         onSave(newData)
 
     }
 
     return (
-        <Card className="flex flex-col h-96 shadow-md shadow-gray-300 rounded-2xl">
-            <CardContent className="flex flex-col flex-auto">
-                <CourseInfo course={course} />
-            </CardContent>
-            <CourseProgress course={course} />
-            <CardActions
-                className="items-center justify-end py-4 px-24"
-            >
-                <Button
-                    className="px-16 min-w-128"
-                    color="success"
-                    variant="contained"
-                    endIcon={
-                        <InfoIcon />
-                    }
-                >
-                    Profile
-                </Button>
-                <Button
-                    className="px-16 min-w-128"
-                    color="primary"
-                    variant="contained"
-                    endIcon={
-                        <ArrowRightIcon />
-                    }
-                    onClick={onSubmit}
-                >
-                    JOIN
-                </Button>
-            </CardActions>
-        </Card>
+        <div>
+            <Card className="flex flex-col h-80 shadow-md shadow-gray-300 !rounded-2xl !text-gray-800 !bg-[#eae9f4] cursor-pointer border-2 border-gray-400" >
+                <div className="h-1/2 overflow-hidden">
+                    <Image src={(course?.group_avatar === 'default' || !course?.group_avatar) ? '/servers/mirage.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${course?.group_avatar}`} alt={`${course?.name}`} width={500} height={250}/>
+                </div>
+                <div className="h-1/2 bg-[#eae9f4] overflow-hidden">
+                    <CardContent className="flex flex-col flex-auto">
+                        <CourseInfo course={course} />
+                    </CardContent>
+                </div>
+            </Card>
+        </div>
     );
 }
 

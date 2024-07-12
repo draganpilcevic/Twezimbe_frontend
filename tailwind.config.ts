@@ -60,9 +60,11 @@ const config = {
       colors: {
         // border: "hsl(var(--border))",
         // input: "hsl(var(--input))",
+        scrollbarTrack: '#e1e342',
+        scrollbarThumb: '#00a234',
         custom: '#1e2738',
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        // background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -99,7 +101,7 @@ const config = {
       //   sm: "calc(var(--radius) - 4px)",
       // },
       backgroundColor: {
-        container: "hsl(var(--container))",
+        "container": "hsl(var(--container))",
         "gray-primary": "hsl(var(--gray-primary))",
         "gray-secondary": "hsl(var(--gray-secondary))",
         "gray-tertiary": "hsl(var(--gray-tertiary))",
@@ -111,7 +113,7 @@ const config = {
       },
       backgroundImage: {
         "chat-tile-light": "url('/bg-light.png')",
-        "chat-tile-dark": "url('/bg-dark.png')",
+        "chat-tile-dark": "url('/assets/bg-dark.png')",
       },
       keyframes: {
         "accordion-down": {
@@ -132,9 +134,33 @@ const config = {
   variants: {
     extend: {
       boxShadow: ["active", "hover"],
+      scrollbar: ['rounded'],
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+    function ({ addUtilities }: any) {
+      addUtilities({
+        '.scrollbar-thin': {
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#d5d9fa',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#d5d911',
+            borderRadius: '10px',
+            border: '2px solid #d5d9fa',
+          },
+        },
+        '.scrollbar-thumb-rounded': {
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+          },
+        },
+      });
+    },
+  ],
 } satisfies Config;
 
 export default config;

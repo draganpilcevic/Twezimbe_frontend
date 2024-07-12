@@ -302,7 +302,7 @@ export const useGetAllUsers = () => {
 export const useGetGroupUserList = (groupId: string) => {
     const accessToken = Cookies.get('access-token');
     
-    const getGroupUserList = async (groupId: string): Promise<User[]> => {
+    const getGroupUserList = async (groupId: string) => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/auth/findByGroupId?groupId=${groupId}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

@@ -123,7 +123,7 @@ const Header = () => {
               Testimonial
             </LinkScroll>
             {userInfo?._id && (
-              <Link href={'/Group'}>Group</Link>
+              <Link href={'/Groups'}>Group</Link>
             )}
           </ul>
 

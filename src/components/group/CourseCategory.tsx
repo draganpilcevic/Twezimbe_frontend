@@ -10,7 +10,7 @@ function CourseCategory({ slug }: Props) {
 
   return (
     <Chip
-      className="font-semibold text-12 bg-blue-300"
+      className="font-semibold text-12 !bg-blue-300"
       label={slug}
       size="small"
 
