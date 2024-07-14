@@ -65,6 +65,7 @@ export type User = {
     is_profileCompleted: boolean;
     is_active: boolean;
     createdAt: Date;
+    user_id?: string
 };
 
 export type CreateUserTypes = {
@@ -140,6 +141,41 @@ export type UpdateUserTypes = {
     customFields?: any; // assuming it can be any type
 }
 
+export type FriendTypes = {
+    _id: string;
+    title?: string;
+    surName: string;
+    givenName: string;
+    otherNames?: string;
+    photograph?: string; // assuming it's a file upload
+    gender: "Male" | "Female" | "Other";
+    tribe: string;
+    religion: string;
+    placeOfBirth: string;
+    currentParish: string;
+    birthday: Date;
+    nationalIDNumber: string;
+    nationalIDPhoto?: string; // assuming it's a file upload
+    phone: string;
+    email: string;
+    homeAddress: string;
+    homeLocation: string;
+    districtOfBirth: string;
+    birthParish: string;
+    birthVillage: string;
+    birthHome: string;
+    maritalStatus?: string;
+    profession: string;
+    placeOfWorkAddress?: string;
+    userID?: string;
+    is_active: boolean;
+    userId?: string;
+    friendId?: string;
+    groupId?: string;
+    roomId?: string;               
+    role_name?: string;  
+};
+
 export type SignInTypes = {
     email: string;
     password: string;
@@ -165,7 +201,6 @@ export type GroupTypes = {
     created_by: string;
     del_flag: number;
     createdAt: Date;
-    
 };
 
 export type CreateGroupTypes = {
@@ -204,6 +239,23 @@ export type JoinedGroupTypes = {
 export type JoinGroupTypes = {
     user_id?: string;
     groud_id?: string;
+};
+
+
+export type CreateGroupChannelTypes = {
+    name: string;
+    selectedUsers_Id?: string[];
+    channel_avatar?:string;
+    created_by?: string;
+};
+
+export type GroupChannelTypes = {
+    _id: string
+    name: string;
+    channel_avatar:string;
+    created_by: string;
+    del_flag: number;
+    createdAt: Date;
 };
 
 

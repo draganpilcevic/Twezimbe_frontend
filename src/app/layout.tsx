@@ -36,13 +36,15 @@ export default function RootLayout({
       <body >
         <Toaster visibleToasts={1} position='top-right' richColors />
 
-        <MyProvider>
+        
           <QueryClientProvider client={queryClient} >
+          <MyProvider>
             <HelmetProvider context={helmetContext}>
                   {children}
             </HelmetProvider>
+            </MyProvider>
           </QueryClientProvider>
-        </MyProvider>
+        
       </body>
     </html>
   );

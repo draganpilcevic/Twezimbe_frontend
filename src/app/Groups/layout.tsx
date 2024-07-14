@@ -19,7 +19,7 @@ export default function GroupsLayout({
   const access_token = Cookies.get('access-token')
   const userId = localStorage.getItem('user')
   const { joinedGroupList } = useGetjoinedGroupList(userId as string);
-  
+  const { userEnter } = useMyContext()
   if(joinedGroupList !== undefined || joinedGroupList !== 'undefined') {
     setGroupList(joinedGroupList as JoinedGroupTypes[])
   }
@@ -29,6 +29,10 @@ export default function GroupsLayout({
       router.push('/auth/SignIn')
     }
   }, [])
+
+  useEffect(() => {
+    userEnter('C2S_USER_ENTER', `allGroups`)
+  },[])
   return (
         <div className='flex h-screen text-gray-100'>
           <GroupNav />

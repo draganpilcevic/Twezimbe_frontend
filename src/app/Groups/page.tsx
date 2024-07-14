@@ -76,14 +76,14 @@ export default function Home() {
             className="relative overflow-hidden flex shrink-0 items-center justify-center py-48"
             height={100}
             sx={{
-              backgroundColor: '#1e293b',
+              backgroundColor: '#6b75e4',
               color: 'white',
             }}
           >
             <div className="flex flex-col items-center justify-center mx-auto w-full mt-8">
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0 } }}>
                 <Typography color="inherit" className="!text-3xl font-semibold">
-                Join a group.
+                Connect, grow
                 </Typography>
               </motion.div>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0 } }}>
@@ -91,7 +91,7 @@ export default function Home() {
                   color="inherit"
                   className="text-center !text-4xl sm:text-48 font-extrabold tracking-tight mt-4"
                 >
-                  Become part of a community.Connect, grow
+                  Become part of a community
                   
                 </Typography>
               </motion.div>
@@ -103,7 +103,6 @@ export default function Home() {
                   color="inherit"
                   className="!text-xl mt-12 sm:mt-24 opacity-75 tracking-tight max-w-md text-center"
                 >
-                 Connect, grow
                 </Typography>
               </motion.div>
             </div>
