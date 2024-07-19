@@ -353,11 +353,11 @@ export const useGetGroupChannelUserList = (channelId: string) => {
     return { groupChannelUserList, isLoading }
 };
 
-export const useGetGroupFriendList = (groupId: string, userId: string) => {
+export const useGetGroupFriendList = (groupId: string) => {
     const accessToken = Cookies.get('access-token');
     
-    const getGroupFriendList = async (groupId: string, userId: string) => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/groupUserFriend/findByGroupIdUserId?groupId=${groupId}&userId=${userId}`, {
+    const getGroupFriendList = async (groupId: string) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/groupUserFriend/findByGroupIdUserId?groupId=${groupId}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             }
@@ -374,7 +374,7 @@ export const useGetGroupFriendList = (groupId: string, userId: string) => {
         return groupFriendList;
     };
 
-    const { data: groupFriendList, isLoading } = useQuery("groupFriendList", () => getGroupFriendList(groupId, userId));
+    const { data: groupFriendList, isLoading } = useQuery("groupFriendList", () => getGroupFriendList(groupId));
 
     return { groupFriendList, isLoading }
 };

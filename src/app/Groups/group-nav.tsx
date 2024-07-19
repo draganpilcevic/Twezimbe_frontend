@@ -1,7 +1,6 @@
 'use client';
 
 import { useGetProfileData } from '@/api/auth';
-import { useGetjoinedGroupList } from '@/api/group';
 import GroupCreateDialog from '@/components/group/groupCreateDialog';
 import { Eye, Verified } from '@/components/group/icons';
 import { useMyContext } from '@/context/MyContext';
@@ -12,10 +11,9 @@ import { ReactNode } from 'react';
 
 const GroupNav = () => {
   const userId = localStorage.getItem('user')
-  const { joinedGroupList } = useGetjoinedGroupList(userId as string);
+  // const { joinedGroupList } = useGetjoinedGroupList(userId as string);
   const { currentUser } = useGetProfileData()
-  const { groupNotificationFlag, sendMsgGroupId } = useMyContext()
-  console.log('sendMsgGroupId', sendMsgGroupId);
+  const { groupNotificationFlag, sendMsgGroupId, groupList } = useMyContext()
   
   return (
     <nav className='space-y-2 bg-[#6b75e4] p-3 overflow-y-auto overflow-x-hidden' style={{ scrollbarWidth: 'none' }}>
@@ -32,7 +30,7 @@ const GroupNav = () => {
         </NavLink>
       ))} */}
 
-      {joinedGroupList?.map((group) => (
+      {groupList?.map((group) => (
         <NavLink
           // href={`/Groups/servers/${group.group_id}/channels/${server.categories[0].channels[0].id}`}
           href={`/Groups/${group?.group_id}/welcome/1`}

@@ -1,5 +1,4 @@
 "use client"
-import { useGetProfileData } from '@/api/auth';
 import { useGetGroupList, useGetjoinedGroupList, useJoinGroup } from "@/api/group";
 import { UserSection } from "@/components/group/components/UserSection";
 import CourseCard from '@/components/group/CourseCard';
@@ -8,7 +7,7 @@ import { Box } from '@mui/system';
 import { motion } from 'framer-motion';
 import Image from "next/image";
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 type CourseProgress = {
   currentStep: number;
@@ -31,12 +30,10 @@ type Course = {
 
 export default function Home() {
 
-  const [hideCompleted, setHideCompleted] = useState(false);
-  const { currentUser } = useGetProfileData();
-
-  const { groupList } = useGetGroupList();
-  const { joinedGroupList } = useGetjoinedGroupList(currentUser?._id as string)
+  const { allGroupList } = useGetGroupList();
+  const { joinedGroupList } = useGetjoinedGroupList()
   const { joinGroup } = useJoinGroup();
+
   return (
     <>
       {/* Channels */}
@@ -149,15 +146,15 @@ export default function Home() {
               };
 
               return (
-                groupList &&
-                (groupList.length > 0 ? (
+                allGroupList &&
+                (allGroupList.length > 0 ? (
                   <motion.div
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mt-32 sm:mt-20"
                     variants={container}
                     initial="hidden"
                     animate="show"
                   >
-                    {groupList.map((course) => {
+                    {allGroupList.map((course) => {
                       return (
                         <motion.div variants={item} key={course._id} >
                           <CourseCard course={course}
@@ -176,7 +173,7 @@ export default function Home() {
                   </div>
                 ))
               );
-            }, [groupList])}
+            }, [allGroupList])}
           </div>
         </div>
       </div>

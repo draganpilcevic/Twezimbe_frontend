@@ -71,11 +71,11 @@ export const useGetGroupChannelList = (groupId: string) => {
 };
 
 
-export const useGetjoinedGroupChannelList = (userId: string) => {
+export const useGetjoinedGroupChannelList = () => {
     const accessToken = Cookies.get('access-token');
     
-    const getJoinedGroupChannelList = async (userId: string) => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/groupChannel/findByUserId?userId=${userId}`, {
+    const getJoinedGroupChannelList = async () => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/groupChannel/findByUserId`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             }
@@ -92,7 +92,7 @@ export const useGetjoinedGroupChannelList = (userId: string) => {
         return joinedGroupChannelList;
     };
 
-    const { data: joinedGroupChannelList, isLoading } = useQuery("joinedGroupChannelList", () => getJoinedGroupChannelList(userId));
+    const { data: joinedGroupChannelList, isLoading } = useQuery("joinedGroupChannelList", () => getJoinedGroupChannelList());
 
     return { joinedGroupChannelList, isLoading }
 };

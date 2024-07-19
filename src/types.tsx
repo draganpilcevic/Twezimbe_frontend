@@ -4,31 +4,31 @@ export type User = {
     surName: string;
     givenName: string;
     otherNames?: string;
-    photograph?: string; // assuming it's a file upload
-    gender: "Male" | "Female" | "Other";
-    tribe: string;
-    religion: string;
-    placeOfBirth: string;
-    currentParish: string;
-    birthday: Date;
-    nationalIDNumber: string;
+    photograph: string; // assuming it's a file upload
+    gender?: "Male" | "Female" | "Other";
+    tribe?: string;
+    religion?: string;
+    placeOfBirth?: string;
+    currentParish?: string;
+    birthday?: Date;
+    nationalIDNumber?: string;
     nationalIDPhoto?: string; // assuming it's a file upload
-    phone: string;
-    email: string;
-    homeAddress: string;
-    homeLocation: string;
-    districtOfBirth: string;
-    birthParish: string;
-    birthVillage: string;
-    birthHome: string;
+    phone?: string;
+    email?: string;
+    homeAddress?: string;
+    homeLocation?: string;
+    districtOfBirth?: string;
+    birthParish?: string;
+    birthVillage?: string;
+    birthHome?: string;
     maritalStatus?: string;
-    profession: string;
-    jobTitle: string;
-    nextOfKin: {
-        nationalID: string;
-        contactName: string;
-        contactPhone: string;
-        contactEmail: string;
+    profession?: string;
+    jobTitle?: string;
+    nextOfKin?: {
+        nationalID?: string;
+        contactName?: string;
+        contactPhone?: string;
+        contactEmail?: string;
     };
     monthlyIncome?: string;
     bankName?: string;
@@ -55,17 +55,19 @@ export type User = {
     };
     userID?: string;
     notificationPreferences?: string;
-    twoFactorAuth: "Enabled" | "Disabled";
+    twoFactorAuth?: "Enabled" | "Disabled";
     securityQuestions?: {
         question?: string;
         answer?: string;
     };
     consentAgreements?: boolean;
     customFields?: any;
-    is_profileCompleted: boolean;
-    is_active: boolean;
-    createdAt: Date;
+    is_profileCompleted?: boolean;
+    is_active?: boolean;
+    createdAt?: Date;
     user_id?: string
+    role_name?:string
+    group_id?: string
 };
 
 export type CreateUserTypes = {
@@ -222,6 +224,7 @@ export type UpdateGroupTypes = {
 };
 
 export type JoinedGroupTypes = {
+    _id?: string;
     group_id: string;
     role_name: string;
     group_name: string;

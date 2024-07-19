@@ -1,4 +1,3 @@
-import { useGetProfileData } from "@/api/auth";
 import { FriendTypes, JoinedGroupTypes, User } from "@/types";
 import Cookies from 'js-cookie';
 import React, { createContext, useContext, useEffect, useState } from 'react';
@@ -32,8 +31,8 @@ type MyContextType = {
     groupChannelRoomEnter: (type: string, content: any) => void;
     sockets: any;
     addGroupMsg: AddGroupMsg;
-    groupList: JoinedGroupTypes[]
-    setGroupList: (value: JoinedGroupTypes[]) => void
+    groupList: JoinedGroupTypes[] | undefined
+    setGroupList: (value: JoinedGroupTypes[] | undefined) => void
     msgInputState: boolean;
     setMsgInputState: (value: boolean) => void;
     addFriend: (userId: string, friendId: string, groupId: string) => void;
@@ -46,15 +45,18 @@ type MyContextType = {
     setSendMsgGroupId: (value: string) => void;
     sendMsgRoomId: string[];
     setSendMsgRoomId: (value: string[]) => void;
+    loggedUser?: User | null;
+    setLoggedUser: (value: User | null) => void;
+    selectedGroupId: string | undefined;
+    setSelectedGroupId: (value: string | undefined) => void;
 };
 
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
 
 export const MyProvider = ({ children }: Props) => {
-    let userId = localStorage.getItem('user')
-    const { currentUser } = useGetProfileData()
-    const [groupList, setGroupList] = useState<JoinedGroupTypes[]>([]);
+    let userId = localStorage?.getItem('user')
+    const [groupList, setGroupList] = useState<JoinedGroupTypes[] | undefined>([]);
     const [memberList, setMemberList] = useState<User[]>([]);
     const [sockets, setSocket] = useState<Socket>()
     const [isConnected, setConnected] = useState(false)
@@ -108,6 +110,9 @@ export const MyProvider = ({ children }: Props) => {
     const [sendMsgGroupId, setSendMsgGroupId] = useState<string>('')
     const [sendMsgRoomId, setSendMsgRoomId] = useState<string[]>([])
     const token = Cookies.get('access-token')
+    const [loggedUser, setLoggedUser] = useState<User | null>(null)
+
+    const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>()
     
     const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string);
     const connect = () => {
@@ -221,7 +226,11 @@ export const MyProvider = ({ children }: Props) => {
                 sendMsgGroupId,
                 setSendMsgGroupId,
                 sendMsgRoomId,
-                setSendMsgRoomId
+                setSendMsgRoomId,
+                loggedUser,
+                setLoggedUser,
+                selectedGroupId,
+                setSelectedGroupId
             }}
         >
             {children}

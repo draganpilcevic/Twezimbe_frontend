@@ -1,7 +1,6 @@
 "use client"
 import { useGetGroupFriendList, useGetGroupUserList, useGetProfileData } from '@/api/auth';
 import { useGetjoinedGroupChannelList } from '@/api/channel';
-import { useGetjoinedGroupList } from '@/api/group';
 import MessageInput from '@/components/group/components/MessageInput';
 import { UserSection } from '@/components/group/components/UserSection';
 import GroupChannelCreateDialog from '@/components/group/groupChannelCreateDialog';
@@ -26,15 +25,15 @@ export default function GroupMainLayout({
 }>) {
 
     let userId = localStorage.getItem('user')
-    let { joinedGroupList } = useGetjoinedGroupList(userId as string)
+    const { groupList, selectedGroupId, setSelectedGroupId, setLoggedUser, addFriend, newFriend, groupEnter, msgInputState, setMsgInputState, memberList, sendMsgRoomId, setSendMsgRoomId, sendMsgGroupId } = useMyContext()
     const { currentUser } = useGetProfileData()
+
     let params = useParams();
-    localStorage.setItem('groupId', params?.groupId as string)
-    let group = joinedGroupList?.find((group) => group?.group_id.toString() === params.groupId)
-    const { joinedGroupChannelList } = useGetjoinedGroupChannelList(userId as string)
+
+    let group = groupList?.find((group) => group?.group_id.toString() === params.groupId)
+    const { joinedGroupChannelList } = useGetjoinedGroupChannelList()
     const { groupUserList } = useGetGroupUserList(params?.groupId as string)
-    const { groupFriendList } = useGetGroupFriendList(params?.groupId as string, userId as string)
-    const { addFriend, newFriend, groupEnter, setMsgInputState, memberList, sendMsgRoomId, setSendMsgRoomId, sendMsgGroupId } = useMyContext()
+    const { groupFriendList } = useGetGroupFriendList(params?.groupId as string)
     const [memberListFlag, setMemeberListFlag] = useState<boolean>(false)
     const [memberProfileFlag, setMemeberProfileFlag] = useState<boolean>(false)
     const [selectedUser, setSelectedUser] = useState<User>()
@@ -55,6 +54,7 @@ export default function GroupMainLayout({
 
     useEffect(() => {
         groupEnter('C2S_GROUP_USER_ENTER', `${params?.groupId}`)
+        setSelectedGroupId(params.groupId as string)
     }, [])
 
     useEffect(() => {
@@ -79,16 +79,19 @@ export default function GroupMainLayout({
         return null;
     }
 
-    useEffect(() => {
-        if (params?.fId) {
-            setChannelTitle('')
-        } else if (params?.wId) {
-            setSelectedFriend(null)
+    // if (params?.fId) {
+    //     setChannelTitle('')
+    // } else if (params?.wId) {
+    //     setSelectedFriend(null)
 
-        } else if (params?.cId) {
-            setSelectedFriend(null)
-        }
-    }, [params])
+    // } else if (params?.cId) {
+    //     setSelectedFriend(null)
+    // }
+
+    if (memberList) {
+        const user = memberList?.filter((member) => member?.user_id === userId)[0]
+        setLoggedUser(user as User)
+    }
 
     const onCheckFriendList = () => {
         const existingFriend = friendList?.filter((friend: FriendTypes) => friend?.friendId === selectedUser?.user_id)[0]
@@ -99,15 +102,12 @@ export default function GroupMainLayout({
         } else {
             addFriend(userId as string, selectedUser?.user_id as string, params?.groupId as string)
             // if (newFriend) {
-                setSelectedFriend(newFriend)
-                router.push(`/Groups/${params?.groupId}/friend/${currentUser?._id}${selectedUser?.user_id}`)
+            setSelectedFriend(newFriend)
+            router.push(`/Groups/${params?.groupId}/friend/${currentUser?._id}${selectedUser?.user_id}`)
             // }
         }
         setMemeberProfileFlag(false)
     }
-
-    console.log('RoomId', sendMsgRoomId);
-
 
     return (
         <>
@@ -196,51 +196,51 @@ export default function GroupMainLayout({
 
                                     <ul className=" px-2">
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2 font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className={`flex rounded-lg px-4 py-2 font-medium hover:bg-[#9da3ff]  ${channelTitle === 'Main Info' ? "bg-[#9da3ff]" : "bg-[#d4d6f3]"}`} onClick={() => setChannelTitle('Main Info')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Main Info
                                             </Link>
                                         </li>
 
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href={`/Groups/${params?.groupId}/profile/membership`} className={`flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]  ${channelTitle === 'Membership Info' ? "bg-[#9da3ff]" : "bg-[#d4d6f3]"}`} onClick={() => setChannelTitle('Membership Info')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Membership Info
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className={`flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff] `} onClick={() => setChannelTitle('Activity&Engagement')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Activity&Engagement
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]" onClick={() => setChannelTitle('Administrative Info')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Administrative Info
                                             </Link>
                                         </li>
 
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]" onClick={() => setChannelTitle('Communication Tools')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Communication Tools
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]" onClick={() => setChannelTitle('Integration Info')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Integration Info
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]" onClick={() => setChannelTitle('Security&Compliance')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Security&Compliance
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]">
+                                            <Link href="#" className="flex rounded-lg px-4 py-2  font-medium hover:bg-[#9da3ff]" onClick={() => setChannelTitle('Analytics&Reporting')}>
                                                 <Icons.Hashtag className='mr-1 h-5 w-5 text-gray-400' />
                                                 Analytics&Reporting
                                             </Link>
@@ -445,6 +445,12 @@ export default function GroupMainLayout({
 
                     {/* Desktop buttons */}
                     <div className='ml-auto hidden items-center md:flex'>
+                        <Link href={`/${params?.groupId}/Sacco`} target='blank' className='text-white bg-gray-800 hover:bg-gray-400 hover:text-black rounded-lg gap-3 w-28 py-1 items-center mr-3 justify-center text-center'>
+                            Sacco
+                        </Link>
+                        <Link href={`#`} className='text-white bg-gray-800 hover:bg-gray-400 hover:text-black  rounded-lg  w-28 py-1 items-center justify-center text-center'>
+                            BF
+                        </Link>
                         <button className=' hover:text-gray-800'>
                             <Icons.HashtagWithSpeechBubble className='mx-2 h-6 w-6' />
                         </button>
@@ -481,7 +487,10 @@ export default function GroupMainLayout({
                         <div className={`${styles.messagesWrapper} bg-[#eae9f4]`}>
                             {children}
                         </div>
-                        <MessageInput />
+                        {msgInputState && (
+                            <MessageInput />
+                        )}
+
                     </main>
                     {memberListFlag && (
                         <div className='scrollbar-thin scrollbar-thumb-rounded absolute right-0 w-1/6 bg-[#e1e4f5] pt-5 h-[calc(87vh)]  overflow-y-scroll scroll-m-10' style={{ direction: 'rtl', scrollbarColor: 'red' }}>
