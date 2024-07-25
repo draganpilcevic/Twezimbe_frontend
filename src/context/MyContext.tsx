@@ -49,13 +49,18 @@ type MyContextType = {
     setLoggedUser: (value: User | null) => void;
     selectedGroupId: string | undefined;
     setSelectedGroupId: (value: string | undefined) => void;
+    saccoStep: number;
+    setSaccoStep: (value: number) => void;
+    saccoCategory: number;
+    setSaccoCategory: (value: number) => void;
+
 };
 
 
 const MyContext = createContext<MyContextType | undefined>(undefined);
 
 export const MyProvider = ({ children }: Props) => {
-    let userId = localStorage?.getItem('user')
+    const [userId, setUserId] = useState<string | null>(null);
     const [groupList, setGroupList] = useState<JoinedGroupTypes[] | undefined>([]);
     const [memberList, setMemberList] = useState<User[]>([]);
     const [sockets, setSocket] = useState<Socket>()
@@ -113,7 +118,13 @@ export const MyProvider = ({ children }: Props) => {
     const [loggedUser, setLoggedUser] = useState<User | null>(null)
 
     const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>()
+
+    const [saccoStep, setSaccoStep] = useState<number>(0);
+    const [saccoCategory, setSaccoCategory] = useState<number>(1);
     
+    useEffect(() => {
+        setUserId(localStorage.getItem('user'))
+    },[])
     const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL as string);
     const connect = () => {
         setSocket(socket)
@@ -230,7 +241,11 @@ export const MyProvider = ({ children }: Props) => {
                 loggedUser,
                 setLoggedUser,
                 selectedGroupId,
-                setSelectedGroupId
+                setSelectedGroupId,
+                saccoStep,
+                setSaccoStep,
+                saccoCategory,
+                setSaccoCategory
             }}
         >
             {children}
