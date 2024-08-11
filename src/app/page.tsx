@@ -28,20 +28,9 @@ export default function Home() {
   }, [currentUser])
 
   useEffect(() => {
-    if (userInfo) {
-      if (userInfo?.is_profileCompleted) {
-        router.push('/')
-
-      } else {
-        router.push('/User/createUserProfile')
-      }
-    }
-  }, [router, userInfo])
-
-  useEffect(() => {
     console.log(accessToken)
     if (!accessToken) {
-      router.push('/')
+      router.push('/Groups')
     }
   }, [])
 

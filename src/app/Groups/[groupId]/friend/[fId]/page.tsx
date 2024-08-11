@@ -4,7 +4,6 @@ import { useGetGroupUserList } from '@/api/auth';
 import { useGetGroupChatMsg } from '@/api/groupChat';
 import { useMyContext } from '@/context/MyContext';
 import moment from 'moment';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 // export type Message = ['messages'][number];
@@ -22,13 +21,14 @@ type Message = {
 
 
 const FriendPage = () => {
-  const [groupId, setGroupId] = useState<string | null>(null);
-  const { groupChatMsg } = useGetGroupChatMsg(groupId as string)
+  const [groupId, setGroupId] = useState<string | null>();
+  const params = useParams()
+
+  const { groupChatMsg } = useGetGroupChatMsg(params?.groupId as string)
   const { addGroupMsg, groupFriendRoomEnter, setMsgInputState, setMemberList } = useMyContext()
   const [addMsg, setaddMsg] = useState<Message[]>([])
 
   const [chatMsg, setChatMsg] = useState<Message[]>([])
-  const params = useParams()
   const { groupUserList } = useGetGroupUserList(params?.groupId as string)
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const FriendPage = () => {
   }, [params?.fId])
 
   useEffect(() => {
-    const newMsg = groupChatMsg?.filter((msg: Message) => msg.roomId === `${params?.fId}`)
+    const newMsg = groupChatMsg?.filter((msg: Message) => msg?.roomId === `${params?.fId}`)
     setChatMsg(newMsg)
   }, [groupChatMsg])
 
@@ -62,7 +62,7 @@ const FriendPage = () => {
     <>
       <div className='flex-1 overflow-y-scroll' style={{ scrollbarWidth: 'none' }}>
         {chatMsg?.map((message: Message, i: number) => (
-          <div key={message._id}>
+          <div key={message?._id}>
             {/* {i === 0 || message.user !== channel.messages[i - 1].user ? ( */}
             <MessageWithUser message={message} />
             {/* ) : (
@@ -72,7 +72,7 @@ const FriendPage = () => {
         ))}
 
         {(addMsg.length > 0) && addMsg?.map((message: Message, i: number) => (
-          <div key={message._id}>
+          <div key={message?._id}>
             <MessageWithUser message={message} />
           </div>
         ))}
@@ -86,7 +86,7 @@ export default FriendPage
 function MessageWithUser({ message }: { message: Message }) {
   return (
     <div className='mt-[17px] flex py-0.5 pl-4 pr-16 leading-[22px] hover:bg-gray-950/[.07]'>
-      <Image
+      <img
         className='mr-4 mt-0.5 h-10 w-10 rounded-full'
         src={(message?.photograph === 'default' || !message?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${message?.photograph}`}
         width={40}
@@ -96,7 +96,7 @@ function MessageWithUser({ message }: { message: Message }) {
       <div>
         <p className='flex items-baseline'>
           <span className='mr-2 text-[15px] font-medium text-black'>
-            {message.surName}
+            {message?.surName}
           </span>
           <span className='text-xs font-semibold text-[#414d70]'>
             {/* {message?.created} */}
@@ -112,7 +112,7 @@ function MessageWithUser({ message }: { message: Message }) {
 function Message({ message }: { message: Message }) {
   return (
     <div className='py-0.5 pl-4 pr-16 leading-[22px] hover:bg-gray-950/[.07]'>
-      <p className='pl-14 text-black'>{message.content}</p>
+      <p className='pl-14 text-black'>{message?.content}</p>
     </div>
   );
 }

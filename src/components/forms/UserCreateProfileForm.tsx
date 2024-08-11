@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { ArrowLeft, FlagIcon } from 'lucide-react';
-import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Select from 'react-tailwindcss-select';
@@ -263,25 +262,25 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className=' bg-gray-50 md:p-10 h-screen'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className=' bg-gray-50 md:p-10 h-[calc(92vh-1px)]'>
                 <div className='justify-between flex'>
                     {subStep > 1 && (<ArrowLeft
                         onClick={() => {
                             setSubStep(subStep - 1);
-                            if (subStep === 13) {setStep(1)}
-                            if (subStep === 15) {setStep(2)}
-                            if (subStep === 16) {setStep(3)}
-                            if (subStep === 19) {setStep(4)}
-                        }} />)}
+                            if (subStep === 13) { setStep(1) }
+                            if (subStep === 15) { setStep(2) }
+                            if (subStep === 16) { setStep(3) }
+                            if (subStep === 19) { setStep(4) }
+                        }} />
+                    )}
+                    <FlagIcon color='white'/>
                     <FlagIcon />
                 </div>
                 {step === 1 && (
                     <div className='items-center justify-center mt-32 w-full text-center flex'>
                         {subStep === 1 && (
-
                             <div className='flex flex-wrap w-1/2 justify-center gap-10'>
                                 <FormLabel className='text-3xl font-bold'>Please Select Your Title</FormLabel>
-
                                 <FormField
                                     control={form.control}
                                     name='title'
@@ -316,60 +315,58 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
                         )}
 
                         {subStep === 2 && (
-                            <>
-                                <div className='flex flex-wrap w-1/2 justify-center gap-10'>
-                                    <FormLabel className='text-3xl font-bold'>Please Input Your SurName, GivenName, OtherNames</FormLabel>
-                                    <FormField
-                                        control={form.control}
-                                        name='surName'
-                                        render={({ field }) => (
-                                            <FormItem className='w-3/4 '>
-                                                <FormControl>
-                                                    <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='SurName' />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name='givenName'
-                                        render={({ field }) => (
-                                            <FormItem className='w-3/4'>
-                                                <FormControl>
-                                                    <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='GivenName' />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name='otherNames'
-                                        render={({ field }) => (
-                                            <FormItem className='w-3/4'>
-                                                <FormControl>
-                                                    <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='OtherNames' />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <Button className='block bg-green-600 text-white w-3/4 hover:bg-green-400' onClick={() => {
-                                        setSubStep(subStep + 1); setProgress(8);
-                                    }}>Next</Button>
-                                </div>
-                            </>
+                            <div className='flex flex-wrap w-1/2 justify-center gap-10'>
+                                <FormLabel className='text-3xl font-bold'>Please Input Your SurName, GivenName, OtherNames</FormLabel>
+                                <FormField
+                                    control={form.control}
+                                    name='surName'
+                                    render={({ field }) => (
+                                        <FormItem className='w-3/4 '>
+                                            <FormControl>
+                                                <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='SurName' />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='givenName'
+                                    render={({ field }) => (
+                                        <FormItem className='w-3/4'>
+                                            <FormControl>
+                                                <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='GivenName' />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='otherNames'
+                                    render={({ field }) => (
+                                        <FormItem className='w-3/4'>
+                                            <FormControl>
+                                                <Input {...field} className='bg-white placeholder:text-gray-500' placeholder='OtherNames' />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button className='block bg-green-600 text-white w-3/4 hover:bg-green-400' onClick={() => {
+                                    setSubStep(subStep + 1); setProgress(8);
+                                }}>Next</Button>
+                            </div>
                         )}
 
                         {subStep === 3 && (
-                            <div className='flex flex-wrap w-1/2 justify-center gap-10'>
+                            <div className='flex flex-wrap w-1/2 justify-center gap-10 items-center text-center'>
                                 <FormLabel className='text-3xl font-bold'>Please Select Your Photograph</FormLabel>
                                 <FormField
                                     control={form.control}
                                     name='photograph'
                                     render={({ field }) => (
-                                        <FormItem className='w-[31%]'>
+                                        <FormItem className='w-3/4 ml-72'>
                                             <FormControl>
                                                 <>
                                                     <div className='justify-center absolute bg-none flex group items-center h-[10rem] w-[10rem] overflow-y-hidden transition-all cursor-pointer rounded-[50%]'>
@@ -382,10 +379,10 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
 
                                                         {avatarFile.file ?
                                                             <span className='w-full h-full flex overflow-y-hidden'>
-                                                                <Image className='w-full shadow-lg visible-image' width={100} height={100} src={avatarFile.url} alt="Photograph" />
+                                                                <img className='w-full shadow-lg visible-image' width={100} height={100} src={avatarFile.url} alt="Photograph" />
                                                             </span>
                                                             : <span className='w-full h-full flex overflow-y-hidden'>
-                                                                <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.photograph === 'default' || !currentUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="Photograph" />
+                                                                <img className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.photograph === 'default' || !currentUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="Photograph" />
                                                             </span>
                                                         }
                                                     </div>
@@ -580,10 +577,10 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
 
                                                         {IDPhoto.file ?
                                                             <span className='w-full h-full flex overflow-y-hidden'>
-                                                                <Image className='w-full shadow-lg visible-image' width={100} height={100} src={IDPhoto.url} alt="ID photo" />
+                                                                <img className='w-full shadow-lg visible-image' width={100} height={100} src={IDPhoto.url} alt="ID photo" />
                                                             </span>
                                                             : <span className='w-full h-full flex overflow-y-hidden'>
-                                                                <Image className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.nationalIDPhoto === 'default' || !currentUser?.nationalIDPhoto) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="ID photo" />
+                                                                <img className='w-full shadow-lg visible-image' width={100} height={100} src={(currentUser?.nationalIDPhoto === 'default' || !currentUser?.nationalIDPhoto) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${field?.value}`} alt="ID photo" />
                                                             </span>
                                                         }
                                                     </div>
@@ -630,7 +627,7 @@ const UserCreateProfileForm = ({ onSave, isLoading, currentUser, step, setStep, 
                                         </FormItem>
                                     )}
                                 />
-                                <Button className='block bg-green-600 text-white w-3/4 bg-green-600bg-green-600bg-green-600bg-green-600' onClick={() => {
+                                <Button className='block bg-green-600 text-white w-3/4 hover:bg-green-400' onClick={() => {
                                     setSubStep(subStep + 1); setProgress(28);
                                 }}>Next</Button>
                             </div>

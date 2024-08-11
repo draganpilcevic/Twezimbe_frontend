@@ -11,7 +11,6 @@ import styles from "@/styles/Channels.module.css";
 import { FriendTypes, GroupChannelTypes, User } from '@/types';
 import { Divider } from '@mui/material';
 import { EditIcon, MailIcon, MessageCircle, VideoIcon } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -101,7 +100,7 @@ export default function GroupMainLayout({
         } else {
             addFriend(userId as string, selectedUser?.user_id as string, params?.groupId as string)
             // if (newFriend) {
-            setSelectedFriend(newFriend)
+            setSelectedFriend(selectedUser as any)
             router.push(`/Groups/${params?.groupId}/friend/${currentUser?._id}${selectedUser?.user_id}`)
             // }
         }
@@ -294,7 +293,7 @@ export default function GroupMainLayout({
                                                         setSendMsgRoomId(sendMsgRoomId?.filter((roomId) => roomId !== `${sendMsgGroupId}${channel?._id}`))
                                                     }}
                                                 >
-                                                    <Image className='rounded-3xl mr-2' width={20} height={20} src={(channel?.channel_avatar === 'default' || !channel?.channel_avatar) ? '/servers/mirage.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${channel?.channel_avatar}`} alt='group' />
+                                                    <img className='rounded-3xl mr-2' width={20} height={20} src={(channel?.channel_avatar === 'default' || !channel?.channel_avatar) ? '/servers/mirage.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${channel?.channel_avatar}`} alt='group' />
                                                     {channel?.name}
                                                     {sendMsgRoomId?.includes(`${sendMsgGroupId}${channel?._id}`) && (
                                                         <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-[#d4d6f3]" />
@@ -412,9 +411,7 @@ export default function GroupMainLayout({
                     {selectedFriend && (
                         <>
                             <Avatar className="overflow-visible !w-7 !h-7">
-                                {/* {friend?.is_active && ( */}
                                 <div className="absolute top-5 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#d4d6f3]" />
-                                {/* )} */}
                                 <AvatarImage
                                     src={(selectedFriend?.photograph === 'default' || !selectedFriend?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${selectedFriend?.photograph}`}
                                     className="rounded-full object-cover"
@@ -486,9 +483,9 @@ export default function GroupMainLayout({
                         <div className={`${styles.messagesWrapper} bg-[#eae9f4]`}>
                             {children}
                         </div>
-                        {msgInputState && (
+                        {/* {msgInputState && ( */}
                             <MessageInput />
-                        )}
+                        {/* )} */}
 
                     </main>
                     {memberListFlag && (
@@ -542,7 +539,7 @@ export default function GroupMainLayout({
                             </div>
                             <div className=' w-full flex items-center text-center justify-center align-middle h-[250px] overflow-hidden'>
                                 <div className='w-[250px] h-[250px] rounded-lg'>
-                                    <Image className='rounded-lg overflow-hidden' src={(selectedUser?.photograph === 'default' || !selectedUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${selectedUser?.photograph}`} alt='user profile' width={250} height={250} />
+                                    <img className='rounded-lg overflow-hidden' src={(selectedUser?.photograph === 'default' || !selectedUser?.photograph) ? '/assets/user.png' : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/${selectedUser?.photograph}`} alt='user profile' width={250} height={250} />
                                 </div>
                             </div>
                             <div className='justify-start flex p-5'>

@@ -2,12 +2,14 @@
 import { useSignIn } from "@/api/auth";
 import HelmetComponent from "@/components/HelmetComponent";
 import SignInForm from "@/components/forms/SignInForm";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const { signIn, isLoading, isSuccess,  } = useSignIn(); 
+  const router = useRouter()
 
   if (isSuccess) {
-    window.location.replace('/');
+    window.location.replace('/Groups/');
   }
 
   return (

@@ -1,24 +1,25 @@
 "use client"
 import { useGetProfileData } from "@/api/auth";
-import { SaccoTypes } from '@/types';
+import { JoinGroupFormData, SaccoTypes } from '@/types';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Apple, GroupIcon } from "lucide-react";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { z } from 'zod';
 import CourseInfo from './CourseInfo';
 
-const formSchema = z.object({
-    user_id: z.string().optional(),
-    group_id: z.string().optional(),
-});
+// const formSchema = z.object({
+//     user_id: z.string().optional(),
+//     group_id: z.string().optional(),
+//     sacco_id: z.string().optional(),
+// });
 
-export type JoinGroupFormData = z.infer<typeof formSchema>;
+// export type JoinGroupFormData = z.infer<typeof formSchema>;
 
 type Props = {
-    onSave?: (joinData: any) => void;
+    onSave: (joinData: JoinGroupFormData) => void;
     course: SaccoTypes
     joinedSaccoList?: SaccoTypes[]
 }
@@ -29,17 +30,16 @@ function SaccoCard({ course, onSave, joinedSaccoList }: Props) {
     const [saccoDetailFlag, setSaccoDetailFlag] = useState<boolean>(false)
 
     const isApproved = joinedSaccoList?.filter((sacco: SaccoTypes) => sacco?._id === course?._id)[0]?.approved
-
-
+    const params = useParams()
+    const router = useRouter()
     const onSubmit = () => {
         var newData = {
-            group_id: course?._id,
+            group_id: params?.groupId as string,
+            sacco_id: course?._id,
             user_id: currentUser?._id
         }
-        console.log("currentUser", newData);
 
-        // onSave(newData)
-
+        onSave(newData)
     }
 
     return (
@@ -85,14 +85,24 @@ function SaccoCard({ course, onSave, joinedSaccoList }: Props) {
                     </div>
                     <div className="flex justify-center space-x-5">
                         {isApproved === 1 ? (
+                            <>
                             <button
-                            className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg  flex items-center text-center gap-2' disabled><GroupIcon /> Joined</button>
+                                className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg  flex items-center text-center gap-2' disabled><GroupIcon /> Joined</button>
+                            <button
+                                    className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg hover:bg-green-600 flex items-center text-center gap-2 hover:text-white' onClick={() => {
+                                        router.push(`/${params?.groupId}/Sacco/${course?._id}`)
+                                        setSaccoDetailFlag(false)}
+                                        }> Open</button>    
+                            </>
                         ) : (
-                            <button
-                            className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg hover:bg-green-600 flex items-center text-center gap-2 hover:text-white'><Apple /> Apply</button>
+                            <>
+                                <button
+                                    className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg hover:bg-green-600 flex items-center text-center gap-2 hover:text-white' onClick={onSubmit}><Apple /> Apply</button>
+                                <button
+                                    className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg hover:bg-green-600 flex items-center text-center gap-2 hover:text-white' onClick={() => setSaccoDetailFlag(false)}> Cancel</button>
+                            </>
                         )}
-                        <button
-                            className='border-green-100 bg-green-200 border-2 px-20 py-2 rounded-lg hover:bg-green-600 flex items-center text-center gap-2 hover:text-white'> Cancel</button>
+
                     </div>
                 </div>
             )}

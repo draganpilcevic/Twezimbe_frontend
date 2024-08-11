@@ -10,14 +10,15 @@ type Props = {
 
 type AddGroupMsg = {
     content: string,
-    created: any,
+    // created: any,
     creatorId: string,
     groupId: string,
     roomId: string,
     surName: string,
     givenName: string,
     photograph: string,
-    _id: string
+    _id: string,
+    createdAt: any
 }
 
 type MyContextType = {
@@ -53,6 +54,8 @@ type MyContextType = {
     setSaccoStep: (value: number) => void;
     saccoCategory: number;
     setSaccoCategory: (value: number) => void;
+    saccoTopBar: string;
+    setSaccoTopBar: (value: string) => void;
 
 };
 
@@ -67,7 +70,7 @@ export const MyProvider = ({ children }: Props) => {
     const [isConnected, setConnected] = useState(false)
     const [addGroupMsg, setAddGroupMsg] = useState<AddGroupMsg>({
         content: '',
-        created: '',
+        createdAt: '',
         creatorId: '',
         groupId: '',
         roomId: '',
@@ -121,6 +124,8 @@ export const MyProvider = ({ children }: Props) => {
 
     const [saccoStep, setSaccoStep] = useState<number>(0);
     const [saccoCategory, setSaccoCategory] = useState<number>(1);
+
+    const [saccoTopBar, setSaccoTopBar] = useState('')
     
     useEffect(() => {
         setUserId(localStorage.getItem('user'))
@@ -182,6 +187,7 @@ export const MyProvider = ({ children }: Props) => {
 
     const addFriend = (userId: string, friendId: string, groupId: string) => {
         socket.emit('C2S_ADD_FRIEND', { userId: userId, friendId: friendId, groupId: groupId })
+        
     }
 
     socket.on('S2C_ADD_FRIEND', (data) => {
@@ -191,7 +197,6 @@ export const MyProvider = ({ children }: Props) => {
         } else {
             return
         }
-        console.log("S2C_ADD_FRIEND", friend[0]);
     })
 
     useEffect(() => {
@@ -245,7 +250,9 @@ export const MyProvider = ({ children }: Props) => {
                 saccoStep,
                 setSaccoStep,
                 saccoCategory,
-                setSaccoCategory
+                setSaccoCategory,
+                saccoTopBar,
+                setSaccoTopBar
             }}
         >
             {children}

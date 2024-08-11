@@ -22,7 +22,6 @@ const MemberShipPage = () => {
     
     return (
         <>
-        
         <UsersTable columns={loggedUser?.role_name !== 'GroupUser' ? adminColumns : columns} data={memberList} />
         </>
     )

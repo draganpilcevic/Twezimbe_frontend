@@ -1,6 +1,6 @@
 import MediaDropdown from "@/components/group/components/media-dropdown"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { useMyContext } from "@/context/MyContext"
 import EmojiPicker, { Theme } from "emoji-picker-react"
 import { Laugh, Mic, Send, Video } from "lucide-react"
@@ -103,9 +103,9 @@ const MessageInput = () => {
             </div>
             <form onSubmit={handleSendTextMsg} className="w-full flex gap-3">
                 <div className="flex-1">
-                    <Textarea
-                        // type="text"
-                        rows={1}
+                    <Input
+                        type="text"
+                        // rows={1}
                         placeholder="Type a message"
                         className="py-2 text-sm w-full min-h-10 resize-y rounded-lg bg-gray-tertiary placeholder:text-gray-400 border-[#bfc3f0]"
                         value={msgText}

@@ -1,4 +1,4 @@
-import { CreateSaccoTypes, JoinSaccoTypes } from "@/types";
+import { CreateSaccoTypes, JoinGroupFormData } from "@/types";
 import Cookies from "js-cookie";
 import { useMutation, useQuery } from 'react-query';
 import { toast } from 'sonner';
@@ -100,7 +100,7 @@ export const useGetjoinedSaccoList = () => {
 
 export const useJoinSacco = () => {
     const accessToken = Cookies.get('access-token');
-    const JoinSaccoRequest = async (joinData: JoinSaccoTypes) => {
+    const JoinSaccoRequest = async (joinData: JoinGroupFormData) => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/sacco/join`, {
             method: 'POST',
             headers: {
@@ -137,4 +137,31 @@ export const useJoinSacco = () => {
         isError,
         isSuccess
     }
+};
+
+
+export const useGetSaccoUserList = (saccoId: string) => {
+    const accessToken = Cookies.get('access-token');
+    
+    const getSaccoUserList = async (saccoId: string) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/sacco/findBySaccoId?saccoId=${saccoId}`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        });
+
+        const responseData = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(responseData.message);
+        }
+
+        const { saccoUserList} = responseData
+
+        return saccoUserList;
+    };
+
+    const { data: saccoUserList, isLoading } = useQuery("saccoUserList", () => getSaccoUserList(saccoId));
+
+    return { saccoUserList, isLoading }
 };
